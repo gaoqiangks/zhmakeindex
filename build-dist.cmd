@@ -29,4 +29,6 @@ go build %FLAGS% -o bin/darwin_x86/zhmakeindex
 set GOARCH=amd64
 go build %FLAGS% -o bin/darwin_x64/zhmakeindex
 
+set GOARCH=arm64
+go build %FLAGS% -o bin/darwin_arm64/zhmakeindex
 endlocal
