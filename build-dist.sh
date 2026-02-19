@@ -13,13 +13,17 @@ zhmRevision=$(git log -1 --pretty=format:"%h(%ai)")
 zhmRevision="${zhmRevision:0:18})"
 
 FLAGS="-ldflags \"-X main.Version=$zhmVersion -X main.Revision=$zhmRevision\""
-#
-# echo $FLAGS
-# exit
 
-GOOS=darwin
+# 自动检测当前系统和架构
+GOOS=$(go env GOOS)
+GOARCH=$(go env GOARCH)
 
-GOARCH=arm64
-# GOOS=$GOOS GOARCH=$GOARCH go build $FLAGS -o bin/darwin_arm64/zhmakeindex
-cmd=$(echo "go build $FLAGS -o bin/darwin_arm64/zhmakeindex")
+echo "Detected GOOS=$GOOS GOARCH=$GOARCH"
+
+# 构建输出目录
+outdir="bin/${GOOS}_${GOARCH}"
+mkdir -p "$outdir"
+
+cmd=$(echo "go build $FLAGS -o $outdir/zhmakeindex")
 eval $cmd
+
